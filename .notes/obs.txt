@@ -1,0 +1,3 @@
+nomes separados por '_', não utilizar camelCase
+
+pubspec.yaml: arquivo para configuração de dependências de pacotes.
