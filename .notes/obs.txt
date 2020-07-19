@@ -1,3 +1,28 @@
 nomes separados por '_', não utilizar camelCase
 
 pubspec.yaml: arquivo para configuração de dependências de pacotes.
+string: pode ser definida com aspas duplas ou simples.
+novas instâncias: não é preciso adicionar 'new'.
+class: descrita por UpperCamelCase.
+private class: nomear com "_" no começo. ex.: _Construtor
+'final': cria constantes em tempo de execução
+'const': cria constantes em tempo de compilação
+
+--- Nomear argumentos de funções
+Constructor({String param1, int param2});
+
+var x = Constructor(param1: "teste", param2: 4);
+
+--- Construtor simplificado
+Nome dos parâmetros devem ser exatamente igual a propriedade
+class Person {
+    String name;
+    int age;
+
+    Person({this.name, this.age});
+}
+
+-- Widget Container
+É composto por Margin{Border{Padding{conteúdo}}}
+
+
