@@ -26,3 +26,13 @@ class Person {
 É composto por Margin{Border{Padding{conteúdo}}}
 
 
+-- Linha e Coluna
+  Assumem o tamanho máximo da tela, não permitindo scroll.
+  Na coluna, se informado CrossAxisAligment com strech, todos os filhos recebem a largura máxima.
+
+--SingleChildScrollView/ListView precisa ser criado dentro de um componente com atura limitada
+  ListView(children: []) -> renderiza todos os filhos
+  ListView.builder() -> renderiza apenas o que está visível
+
+--'widget' permite acessar propriedades do widget dentro da classe de estado
+

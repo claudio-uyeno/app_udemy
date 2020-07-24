@@ -1,24 +1,37 @@
+import 'dart:ui';
+
+import 'package:app_udemy/widgets/transacao_home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(AppUdemy());
 }
 
-class AppUdemy extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _AppUdemyState();
-  }
-}
-
-class _AppUdemyState extends State<AppUdemy> {
+class AppUdemy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(''),
-        ),
+      title: 'App Udemy',
+      home: TransacaoHome(),
+      theme: ThemeData(
+        primarySwatch: Colors.cyan,
+        accentColor: Colors.amberAccent,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+        appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
       ),
     );
   }
