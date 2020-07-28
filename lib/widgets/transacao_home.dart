@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/transacao.dart';
 import './transacao_lista.dart';
 import './transacao_novo.dart';
+import './chart.dart';
 
 class TransacaoHome extends StatefulWidget {
   @override
@@ -12,32 +13,33 @@ class TransacaoHome extends StatefulWidget {
 }
 
 class _TransacaoHomeState extends State<TransacaoHome> {
-  final List<Transacao> _transacoes = [
-    Transacao(
-        id: 1, descricao: 'Tênis', valor: 99.99, data: DateTime(2020, 07, 01)),
-    Transacao(
-        id: 2,
-        descricao: 'Notebook',
-        valor: 2499.99,
-        data: DateTime(2020, 07, 13)),
-    Transacao(
-        id: 3,
-        descricao: 'Celula',
-        valor: 2999.99,
-        data: DateTime(2020, 07, 01)),
-    Transacao(
-        id: 4, descricao: 'Lanche', valor: 30.99, data: DateTime(2020, 07, 01)),
-    Transacao(
-        id: 5,
-        descricao: 'Sorvete',
-        valor: 19.99,
-        data: DateTime(2020, 07, 01)),
-    Transacao(
-        id: 6,
-        descricao: 'Gasolina',
-        valor: 199.99,
-        data: DateTime(2020, 07, 01)),
-  ];
+  final List<Transacao> _transacoes = List<Transacao>();
+  // final List<Transacao> _transacoes = [
+  //   Transacao(
+  //       id: 1, descricao: 'Tênis', valor: 99.99, data: DateTime(2020, 07, 01)),
+  //   Transacao(
+  //       id: 2,
+  //       descricao: 'Notebook',
+  //       valor: 2499.99,
+  //       data: DateTime(2020, 07, 13)),
+  //   Transacao(
+  //       id: 3,
+  //       descricao: 'Celula',
+  //       valor: 2999.99,
+  //       data: DateTime(2020, 07, 01)),
+  //   Transacao(
+  //       id: 4, descricao: 'Lanche', valor: 30.99, data: DateTime(2020, 07, 01)),
+  //   Transacao(
+  //       id: 5,
+  //       descricao: 'Sorvete',
+  //       valor: 19.99,
+  //       data: DateTime(2020, 07, 01)),
+  //   Transacao(
+  //       id: 6,
+  //       descricao: 'Gasolina',
+  //       valor: 199.99,
+  //       data: DateTime(2020, 07, 01)),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _TransacaoHomeState extends State<TransacaoHome> {
               child: Card(
                 color: Theme.of(context).primaryColor,
                 elevation: 5, //drop shadow
-                child: Text('CHART'),
+                child: Chart(_transacoesRecentes),
               ),
             ),
             TransacaoLista(_transacoes),
@@ -98,5 +100,11 @@ class _TransacaoHomeState extends State<TransacaoHome> {
         _transacoes.add(novo);
       });
     }
+  }
+
+  List<Transacao> get _transacoesRecentes {
+    return _transacoes.where((x) {
+      return x.data.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
   }
 }

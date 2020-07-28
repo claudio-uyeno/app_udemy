@@ -11,121 +11,115 @@ class TransacaoLista extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-        itemBuilder: (ctx, idx) {
-          return Card(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: transacoes.isEmpty
+          ? Column(
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      transacoes[idx].descricao,
-                      style: Theme.of(context).textTheme.headline6,
-                      // TextStyle(
-                      //   fontSize: 16,
-                      //   color: Theme.of(context).primaryColor,
-                      // ),
-                      textAlign: TextAlign.right,
-                    ),
-                    Text(
-                      DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).primaryColorDark,
-                      ),
-                      textAlign: TextAlign.right,
-                    )
-                  ],
+                Text(
+                  'Não existem transações!',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
                   ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'R\$ ${transacoes[idx].valor.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
+                  height: 200,
                 )
               ],
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, idx) {
+                //return _listaSimples(ctx, idx);
+                return _tileList(ctx, idx);
+              },
+              itemCount: transacoes.length,
             ),
-          );
-        },
-        itemCount: transacoes.length,
-      ),
       height: 300,
     );
   }
-}
 
-// @override
-// Widget build(BuildContext context) {
-//   return Column(
-//     children: <Widget>[
-//       ...transacoes.map((transacao) {
-//         return Card(
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: <Widget>[
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: <Widget>[
-//                   Text(
-//                     transacao.descricao,
-//                     style: TextStyle(
-//                       fontSize: 16,
-//                       color: Colors.blue,
-//                     ),
-//                     textAlign: TextAlign.right,
-//                   ),
-//                   Text(
-//                     DateFormat('dd/MM/yyyy').format(transacao.data),
-//                     style: TextStyle(
-//                       fontSize: 12,
-//                       color: Colors.grey,
-//                     ),
-//                     textAlign: TextAlign.right,
-//                   )
-//                 ],
-//               ),
-//               Container(
-//                 margin: EdgeInsets.symmetric(
-//                   horizontal: 15,
-//                   vertical: 10,
-//                 ),
-//                 decoration: BoxDecoration(
-//                   border: Border.all(
-//                     color: Colors.purple,
-//                     width: 2,
-//                   ),
-//                 ),
-//                 padding: EdgeInsets.all(10),
-//                 child: Text(
-//                   'R\$ ${transacao.valor}',
-//                   style: TextStyle(
-//                     fontWeight: FontWeight.bold,
-//                     fontSize: 18,
-//                     color: Colors.purple,
-//                   ),
-//                 ),
-//               )
-//             ],
-//           ),
-//         );
-//       }).toList(),
-//     ],
-//   );
-// }
+  Widget _listaSimples(BuildContext context, int idx) {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                transacoes[idx].descricao,
+                style: Theme.of(context).textTheme.headline6,
+                // TextStyle(
+                //   fontSize: 16,
+                //   color: Theme.of(context).primaryColor,
+                // ),
+                textAlign: TextAlign.right,
+              ),
+              Text(
+                DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).primaryColorDark,
+                ),
+                textAlign: TextAlign.right,
+              )
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 10,
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).primaryColor,
+                width: 2,
+              ),
+            ),
+            padding: EdgeInsets.all(10),
+            child: Text(
+              'R\$ ${transacoes[idx].valor.toStringAsFixed(2)}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _tileList(BuildContext context, int idx) {
+    return Card(
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: 30,
+          child: Padding(
+            child: FittedBox(
+              child: Text('R\$ ${transacoes[idx].valor.toStringAsFixed(2)}'),
+            ),
+            padding: EdgeInsets.all(6),
+          ),
+        ),
+        title: Text(
+          transacoes[idx].descricao,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        subtitle: Text(
+          DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
+          style: TextStyle(
+            fontSize: 12,
+            color: Theme.of(context).primaryColorDark,
+          ),
+          textAlign: TextAlign.right,
+        ),
+      ),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+    );
+  }
+}
