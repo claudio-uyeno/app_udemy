@@ -88,13 +88,13 @@ class _TransacaoHomeState extends State<TransacaoHome> {
         });
   }
 
-  void _adicionar(String descricao, double valor) {
+  void _adicionar(String descricao, double valor, DateTime data) {
     if (descricao.isNotEmpty) {
       final novo = Transacao(
           id: _transacoes.length + 1,
           descricao: descricao,
           valor: valor,
-          data: DateTime.now());
+          data: data);
 
       setState(() {
         _transacoes.add(novo);

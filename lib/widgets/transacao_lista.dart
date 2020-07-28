@@ -33,7 +33,7 @@ class TransacaoLista extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, idx) {
                 //return _listaSimples(ctx, idx);
-                return _tileList(ctx, idx);
+                return _tileListRight(ctx, idx);
               },
               itemCount: transacoes.length,
             ),
@@ -41,7 +41,7 @@ class TransacaoLista extends StatelessWidget {
     );
   }
 
-  Widget _listaSimples(BuildContext context, int idx) {
+  Widget _simpleList(BuildContext context, int idx) {
     return Card(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +94,7 @@ class TransacaoLista extends StatelessWidget {
     );
   }
 
-  Widget _tileList(BuildContext context, int idx) {
+  Widget _tileListLeft(BuildContext context, int idx) {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
@@ -116,7 +116,36 @@ class TransacaoLista extends StatelessWidget {
             fontSize: 12,
             color: Theme.of(context).primaryColorDark,
           ),
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.left,
+        ),
+      ),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+    );
+  }
+
+  Widget _tileListRight(BuildContext context, int idx) {
+    return Card(
+      child: ListTile(
+        trailing: CircleAvatar(
+          radius: 30,
+          child: Padding(
+            child: FittedBox(
+              child: Text('R\$ ${transacoes[idx].valor.toStringAsFixed(2)}'),
+            ),
+            padding: EdgeInsets.all(6),
+          ),
+        ),
+        title: Text(
+          transacoes[idx].descricao,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        subtitle: Text(
+          DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
+          style: TextStyle(
+            fontSize: 12,
+            color: Theme.of(context).primaryColorDark,
+          ),
+          textAlign: TextAlign.left,
         ),
       ),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
