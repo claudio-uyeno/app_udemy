@@ -1,9 +1,14 @@
 import 'dart:ui';
-
 import 'package:app_udemy/widgets/transacao_home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]); //limita orientações
   runApp(AppUdemy());
 }
 

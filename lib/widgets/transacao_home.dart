@@ -43,17 +43,19 @@ class _TransacaoHomeState extends State<TransacaoHome> {
 
   @override
   Widget build(BuildContext context) {
+    final _appBar = AppBar(
+      title: Text('Transações'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _novaTransacaoForm(context),
+        )
+      ],
+    );
+
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Transações'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => _novaTransacaoForm(context),
-            )
-          ],
-        ),
+        appBar: _appBar,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,8 +66,18 @@ class _TransacaoHomeState extends State<TransacaoHome> {
                 elevation: 5, //drop shadow
                 child: Chart(_transacoesRecentes),
               ),
+              height: (MediaQuery.of(context).size.height -
+                      _appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.3,
             ),
-            TransacaoLista(_transacoes, _excluir),
+            Container(
+              child: TransacaoLista(_transacoes, _excluir),
+              height: (MediaQuery.of(context).size.height -
+                      _appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.7,
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -102,7 +114,7 @@ class _TransacaoHomeState extends State<TransacaoHome> {
     }
   }
 
-  void _excluir(int id){
+  void _excluir(int id) {
     setState(() {
       _transacoes.removeWhere((transacao) => transacao.id == id);
     });
