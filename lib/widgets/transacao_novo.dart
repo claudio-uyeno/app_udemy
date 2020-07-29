@@ -80,7 +80,7 @@ class _TransacaoNovoState extends State<TransacaoNovo> {
                   onPressed: _selecionarData,
                 ),
               ],
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             RaisedButton(
                 child: Text(
