@@ -65,7 +65,7 @@ class _TransacaoHomeState extends State<TransacaoHome> {
                 child: Chart(_transacoesRecentes),
               ),
             ),
-            TransacaoLista(_transacoes),
+            TransacaoLista(_transacoes, _excluir),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -100,6 +100,12 @@ class _TransacaoHomeState extends State<TransacaoHome> {
         _transacoes.add(novo);
       });
     }
+  }
+
+  void _excluir(int id){
+    setState(() {
+      _transacoes.removeWhere((transacao) => transacao.id == id);
+    });
   }
 
   List<Transacao> get _transacoesRecentes {

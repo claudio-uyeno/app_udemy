@@ -5,8 +5,9 @@ import '../models/transacao.dart';
 
 class TransacaoLista extends StatelessWidget {
   final List<Transacao> transacoes;
+  Function excluirTransacao;
 
-  TransacaoLista(this.transacoes);
+  TransacaoLista(this.transacoes, this.excluirTransacao);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class TransacaoLista extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, idx) {
                 //return _listaSimples(ctx, idx);
-                return _tileListRight(ctx, idx);
+                return _tileListLeft(ctx, idx);
               },
               itemCount: transacoes.length,
             ),
@@ -118,6 +119,7 @@ class TransacaoLista extends StatelessWidget {
           ),
           textAlign: TextAlign.left,
         ),
+        trailing: IconButton(icon: Icon(Icons.delete_forever, color: Theme.of(context).errorColor,), onPressed: () => excluirTransacao(transacoes[idx].id),),
       ),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
     );
