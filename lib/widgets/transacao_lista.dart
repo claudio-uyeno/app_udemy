@@ -13,24 +13,26 @@ class TransacaoLista extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: transacoes.isEmpty
-          ? Column(
-              children: <Widget>[
-                Text(
-                  'Não existem transações!',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
+          ? LayoutBuilder(builder: (ctx, cts) {
+              return Column(
+                children: <Widget>[
+                  Text(
+                    'Não existem transações!',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                  height: 200,
-                )
-              ],
-            )
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    ),
+                    height: cts.maxHeight * 0.6,
+                  )
+                ],
+              );
+            })
           : ListView.builder(
               itemBuilder: (ctx, idx) {
                 //return _listaSimples(ctx, idx);
@@ -119,7 +121,13 @@ class TransacaoLista extends StatelessWidget {
           ),
           textAlign: TextAlign.left,
         ),
-        trailing: IconButton(icon: Icon(Icons.delete_forever, color: Theme.of(context).errorColor,), onPressed: () => excluirTransacao(transacoes[idx].id),),
+        trailing: IconButton(
+          icon: Icon(
+            Icons.delete_forever,
+            color: Theme.of(context).errorColor,
+          ),
+          onPressed: () => excluirTransacao(transacoes[idx].id),
+        ),
       ),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
     );

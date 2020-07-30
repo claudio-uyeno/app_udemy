@@ -14,6 +14,7 @@ class TransacaoHome extends StatefulWidget {
 
 class _TransacaoHomeState extends State<TransacaoHome> {
   final List<Transacao> _transacoes = List<Transacao>();
+  bool _exibirGrafico = false;
   // final List<Transacao> _transacoes = [
   //   Transacao(
   //       id: 1, descricao: 'Tênis', valor: 99.99, data: DateTime(2020, 07, 01)),
@@ -43,6 +44,8 @@ class _TransacaoHomeState extends State<TransacaoHome> {
 
   @override
   Widget build(BuildContext context) {
+    final paisagem =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final _appBar = AppBar(
       title: Text('Transações'),
       actions: <Widget>[
@@ -53,6 +56,30 @@ class _TransacaoHomeState extends State<TransacaoHome> {
       ],
     );
 
+    Widget _buildGrafico(double percent) {
+      return Container(
+        child: Card(
+          color: Theme.of(context).primaryColor,
+          elevation: 5, //drop shadow
+          child: Chart(_transacoesRecentes),
+        ),
+        height: (MediaQuery.of(context).size.height -
+                _appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) *
+            percent,
+      );
+    }
+
+    Widget _buildListaTransacoes(double percent) {
+      return Container(
+        child: TransacaoLista(_transacoes, _excluir),
+        height: (MediaQuery.of(context).size.height -
+                _appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) *
+            percent,
+      );
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: _appBar,
@@ -60,24 +87,21 @@ class _TransacaoHomeState extends State<TransacaoHome> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              child: Card(
-                color: Theme.of(context).primaryColor,
-                elevation: 5, //drop shadow
-                child: Chart(_transacoesRecentes),
+            if (paisagem)
+              Center(
+                child: Switch(
+                  value: _exibirGrafico,
+                  onChanged: (val) {
+                    setState(() {
+                      _exibirGrafico = val;
+                    });
+                  },
+                ),
               ),
-              height: (MediaQuery.of(context).size.height -
-                      _appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.3,
-            ),
-            Container(
-              child: TransacaoLista(_transacoes, _excluir),
-              height: (MediaQuery.of(context).size.height -
-                      _appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.7,
-            ),
+            if (!paisagem) _buildGrafico(0.3),
+            if (!paisagem) _buildListaTransacoes(0.7),
+            if (paisagem)
+              _exibirGrafico ? _buildGrafico(0.8) : _buildListaTransacoes(0.8),
           ],
         ),
         floatingActionButton: FloatingActionButton(

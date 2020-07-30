@@ -59,7 +59,7 @@ class _TransacaoUsuario extends State<TransacaoUsuario> {
     return Column(
       children: <Widget>[
         TransacaoNovo(_adicionar),
-        TransacaoLista(_transacoes)
+        TransacaoLista(_transacoes, null)
       ],
     );
   }
