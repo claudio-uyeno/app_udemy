@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import './adaptative_flat_button.dart';
+
 class TransacaoNovo extends StatefulWidget {
   final Function adicionarOnPressed;
 
@@ -51,48 +53,51 @@ class _TransacaoNovoState extends State<TransacaoNovo> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-                controller: _descricaoController,
-                decoration: InputDecoration(labelText: 'Descrição')),
-            TextField(
-              controller: _valorController,
-              decoration: InputDecoration(labelText: 'Valor'),
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _adicionar(),
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  _data == null
-                      ? '??/??/??'
-                      : DateFormat('dd/MM/yy').format(_data),
-                ),
-                FlatButton(
-                  child: Text('Seleciona data'),
-                  textColor: Theme.of(context).primaryColor,
-                  onPressed: _selecionarData,
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            RaisedButton(
-                child: Text(
-                  'Adicionar',
-                  style: TextStyle(
-                    color: Theme.of(context).buttonColor,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom +
+                  10), //corrigir problema do teclado sobre o fomulário
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                  controller: _descricaoController,
+                  decoration: InputDecoration(labelText: 'Descrição')),
+              TextField(
+                controller: _valorController,
+                decoration: InputDecoration(labelText: 'Valor'),
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _adicionar(),
+              ),
+              Row(
+                children: <Widget>[
+                  Text(
+                    _data == null
+                        ? '??/??/??'
+                        : DateFormat('dd/MM/yy').format(_data),
                   ),
-                  textAlign: TextAlign.right,
-                ),
-                color: Theme.of(context).primaryColor,
-                onPressed: _adicionar),
-          ],
+                  AdaptativeFlatButton('Seleionar data', _selecionarData),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              RaisedButton(
+                  child: Text(
+                    'Adicionar',
+                    style: TextStyle(
+                      color: Theme.of(context).buttonColor,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  color: Theme.of(context).primaryColor,
+                  onPressed: _adicionar),
+            ],
+          ),
         ),
       ),
     );

@@ -121,13 +121,21 @@ class TransacaoLista extends StatelessWidget {
           ),
           textAlign: TextAlign.left,
         ),
-        trailing: IconButton(
-          icon: Icon(
-            Icons.delete_forever,
-            color: Theme.of(context).errorColor,
-          ),
-          onPressed: () => excluirTransacao(transacoes[idx].id),
-        ),
+        trailing: MediaQuery.of(context).size.width > 360
+            ? FlatButton.icon(
+                onPressed: () => excluirTransacao(transacoes[idx].id),
+                icon: Icon(
+                  Icons.delete_forever,
+                  color: Theme.of(context).errorColor,
+                ),
+                label: Text('Excluir'))
+            : IconButton(
+                icon: Icon(
+                  Icons.delete_forever,
+                  color: Theme.of(context).errorColor,
+                ),
+                onPressed: () => excluirTransacao(transacoes[idx].id),
+              ),
       ),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
     );

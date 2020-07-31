@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/transacao.dart';
@@ -13,48 +16,61 @@ class TransacaoHome extends StatefulWidget {
 }
 
 class _TransacaoHomeState extends State<TransacaoHome> {
-  final List<Transacao> _transacoes = List<Transacao>();
   bool _exibirGrafico = false;
-  // final List<Transacao> _transacoes = [
-  //   Transacao(
-  //       id: 1, descricao: 'Tênis', valor: 99.99, data: DateTime(2020, 07, 01)),
-  //   Transacao(
-  //       id: 2,
-  //       descricao: 'Notebook',
-  //       valor: 2499.99,
-  //       data: DateTime(2020, 07, 13)),
-  //   Transacao(
-  //       id: 3,
-  //       descricao: 'Celula',
-  //       valor: 2999.99,
-  //       data: DateTime(2020, 07, 01)),
-  //   Transacao(
-  //       id: 4, descricao: 'Lanche', valor: 30.99, data: DateTime(2020, 07, 01)),
-  //   Transacao(
-  //       id: 5,
-  //       descricao: 'Sorvete',
-  //       valor: 19.99,
-  //       data: DateTime(2020, 07, 01)),
-  //   Transacao(
-  //       id: 6,
-  //       descricao: 'Gasolina',
-  //       valor: 199.99,
-  //       data: DateTime(2020, 07, 01)),
-  // ];
+  //final List<Transacao> _transacoes = List<Transacao>();
+  final List<Transacao> _transacoes = [
+    Transacao(
+        id: 1, descricao: 'Tênis', valor: 99.99, data: DateTime(2020, 07, 01)),
+    Transacao(
+        id: 2,
+        descricao: 'Notebook',
+        valor: 2499.99,
+        data: DateTime(2020, 07, 13)),
+    Transacao(
+        id: 3,
+        descricao: 'Celular',
+        valor: 2999.99,
+        data: DateTime(2020, 07, 01)),
+    Transacao(
+        id: 4, descricao: 'Lanche', valor: 30.99, data: DateTime(2020, 07, 01)),
+    Transacao(
+        id: 5,
+        descricao: 'Sorvete',
+        valor: 19.99,
+        data: DateTime(2020, 07, 01)),
+    Transacao(
+        id: 6,
+        descricao: 'Gasolina',
+        valor: 199.99,
+        data: DateTime(2020, 07, 01)),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final paisagem =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final _appBar = AppBar(
-      title: Text('Transações'),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _novaTransacaoForm(context),
-        )
-      ],
-    );
+    final PreferredSizeWidget _appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text('Transações'),
+            trailing: Row(
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _novaTransacaoForm(context),
+                )
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
+          )
+        : AppBar(
+            title: Text('Transações'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _novaTransacaoForm(context),
+              )
+            ],
+          );
 
     Widget _buildGrafico(double percent) {
       return Container(
@@ -80,16 +96,16 @@ class _TransacaoHomeState extends State<TransacaoHome> {
       );
     }
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: _appBar,
-        body: Column(
+    final _body = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (paisagem)
               Center(
-                child: Switch(
+                child: Switch.adaptive(
+                  //adapta conforme o SO
                   value: _exibirGrafico,
                   onChanged: (val) {
                     setState(() {
@@ -104,12 +120,24 @@ class _TransacaoHomeState extends State<TransacaoHome> {
               _exibirGrafico ? _buildGrafico(0.8) : _buildListaTransacoes(0.8),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => _novaTransacaoForm(context),
-        ),
       ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: _body,
+            navigationBar: _appBar,
+          )
+        : Scaffold(
+            appBar: _appBar,
+            body: _body,
+            floatingActionButton: Platform.isIOS
+                ? Container() //não renderiza nada para IOS
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => _novaTransacaoForm(context),
+                  ),
+          );
   }
 
   void _novaTransacaoForm(BuildContext ctx) {
