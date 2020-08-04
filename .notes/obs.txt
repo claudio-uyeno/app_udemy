@@ -36,3 +36,9 @@ class Person {
 
 --'widget' permite acessar propriedades do widget dentro da classe de estado
 
+-- setState aciona a execução do build novamente
+-- MediaQuery aciona a execução do build novamente
+
+-- Constrututores 'contantes'
+  Precisa ter todos os parâmetros como 'final'. Por exemplo, StatelessWidget
+  Instanciar widgets com 'const' faz com que ele não seja reinstanciado no build. O conteúdo deve ser imutável. Ex.: Campo text com função de label

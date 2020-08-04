@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/transacao.dart';
+
+import './transacao_item_simples.dart';
+import './transacao_item_tile_left.dart';
+import './transacao_item_tile_right.dart';
 
 class TransacaoLista extends StatelessWidget {
   final List<Transacao> transacoes;
@@ -35,138 +38,13 @@ class TransacaoLista extends StatelessWidget {
             })
           : ListView.builder(
               itemBuilder: (ctx, idx) {
-                //return _listaSimples(ctx, idx);
-                return _tileListLeft(ctx, idx);
+                //return TransacaoItemSimples(transacao: transacoes[idx]);
+                //return TransacaoItemTileRight(transacao: transacoes[idx]);
+                return TransacaoItemTileLeft(transacao: transacoes[idx], excluirTransacao: excluirTransacao);
               },
               itemCount: transacoes.length,
             ),
       height: 300,
-    );
-  }
-
-  Widget _simpleList(BuildContext context, int idx) {
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                transacoes[idx].descricao,
-                style: Theme.of(context).textTheme.headline6,
-                // TextStyle(
-                //   fontSize: 16,
-                //   color: Theme.of(context).primaryColor,
-                // ),
-                textAlign: TextAlign.right,
-              ),
-              Text(
-                DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).primaryColorDark,
-                ),
-                textAlign: TextAlign.right,
-              )
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 10,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 2,
-              ),
-            ),
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'R\$ ${transacoes[idx].valor.toStringAsFixed(2)}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _tileListLeft(BuildContext context, int idx) {
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 30,
-          child: Padding(
-            child: FittedBox(
-              child: Text('R\$ ${transacoes[idx].valor.toStringAsFixed(2)}'),
-            ),
-            padding: EdgeInsets.all(6),
-          ),
-        ),
-        title: Text(
-          transacoes[idx].descricao,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        subtitle: Text(
-          DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
-          style: TextStyle(
-            fontSize: 12,
-            color: Theme.of(context).primaryColorDark,
-          ),
-          textAlign: TextAlign.left,
-        ),
-        trailing: MediaQuery.of(context).size.width > 360
-            ? FlatButton.icon(
-                onPressed: () => excluirTransacao(transacoes[idx].id),
-                icon: Icon(
-                  Icons.delete_forever,
-                  color: Theme.of(context).errorColor,
-                ),
-                label: Text('Excluir'))
-            : IconButton(
-                icon: Icon(
-                  Icons.delete_forever,
-                  color: Theme.of(context).errorColor,
-                ),
-                onPressed: () => excluirTransacao(transacoes[idx].id),
-              ),
-      ),
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-    );
-  }
-
-  Widget _tileListRight(BuildContext context, int idx) {
-    return Card(
-      child: ListTile(
-        trailing: CircleAvatar(
-          radius: 30,
-          child: Padding(
-            child: FittedBox(
-              child: Text('R\$ ${transacoes[idx].valor.toStringAsFixed(2)}'),
-            ),
-            padding: EdgeInsets.all(6),
-          ),
-        ),
-        title: Text(
-          transacoes[idx].descricao,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        subtitle: Text(
-          DateFormat('dd/MM/yyyy').format(transacoes[idx].data),
-          style: TextStyle(
-            fontSize: 12,
-            color: Theme.of(context).primaryColorDark,
-          ),
-          textAlign: TextAlign.left,
-        ),
-      ),
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
     );
   }
 }
