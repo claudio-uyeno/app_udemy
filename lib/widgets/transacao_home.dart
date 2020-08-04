@@ -15,7 +15,8 @@ class TransacaoHome extends StatefulWidget {
   }
 }
 
-class _TransacaoHomeState extends State<TransacaoHome> {
+class _TransacaoHomeState extends State<TransacaoHome>
+    with WidgetsBindingObserver {
   bool _exibirGrafico = false;
   //final List<Transacao> _transacoes = List<Transacao>();
   final List<Transacao> _transacoes = [
@@ -44,6 +45,24 @@ class _TransacaoHomeState extends State<TransacaoHome> {
         valor: 199.99,
         data: DateTime(2020, 07, 01)),
   ];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +121,7 @@ class _TransacaoHomeState extends State<TransacaoHome> {
                 ),
               ),
             if (!paisagem) ..._buildPortrait(),
-            if (paisagem)
-              _buildLandscape(_exibirGrafico),
+            if (paisagem) _buildLandscape(_exibirGrafico),
           ],
         ),
       ),
@@ -128,27 +146,27 @@ class _TransacaoHomeState extends State<TransacaoHome> {
 
   Widget _buildAppBar() {
     return Platform.isIOS
-      ? CupertinoNavigationBar(
-          middle: Text('Transações'),
-          trailing: Row(
-            children: <Widget>[
-              GestureDetector(
-                child: Icon(CupertinoIcons.add),
-                onTap: () => _novaTransacaoForm(context),
+        ? CupertinoNavigationBar(
+            middle: Text('Transações'),
+            trailing: Row(
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _novaTransacaoForm(context),
+                )
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
+          )
+        : AppBar(
+            title: Text('Transações'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _novaTransacaoForm(context),
               )
             ],
-            mainAxisSize: MainAxisSize.min,
-          ),
-        )
-      : AppBar(
-          title: Text('Transações'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => _novaTransacaoForm(context),
-            )
-          ],
-        );
+          );
   }
 
   void _novaTransacaoForm(BuildContext ctx) {

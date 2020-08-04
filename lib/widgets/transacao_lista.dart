@@ -36,14 +36,22 @@ class TransacaoLista extends StatelessWidget {
                 ],
               );
             })
-          : ListView.builder(
-              itemBuilder: (ctx, idx) {
-                //return TransacaoItemSimples(transacao: transacoes[idx]);
-                //return TransacaoItemTileRight(transacao: transacoes[idx]);
-                return TransacaoItemTileLeft(transacao: transacoes[idx], excluirTransacao: excluirTransacao);
-              },
-              itemCount: transacoes.length,
+          : ListView(
+              children: transacoes
+                  .map((transacao) => TransacaoItemTileLeft(
+                      key: ValueKey(transacao.id),
+                      transacao: transacao,
+                      excluirTransacao: excluirTransacao))
+                  .toList(),
             ),
+      // : ListView.builder(
+      //     itemBuilder: (ctx, idx) {
+      //       //return TransacaoItemSimples(transacao: transacoes[idx]);
+      //       //return TransacaoItemTileRight(transacao: transacoes[idx]);
+      //       return TransacaoItemTileLeft(transacao: transacoes[idx], excluirTransacao: excluirTransacao);
+      //     },
+      //     itemCount: transacoes.length,
+      //   ),
       height: 300,
     );
   }
