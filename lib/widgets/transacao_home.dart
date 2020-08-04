@@ -15,7 +15,8 @@ class TransacaoHome extends StatefulWidget {
   }
 }
 
-class _TransacaoHomeState extends State<TransacaoHome> {
+class _TransacaoHomeState extends State<TransacaoHome>
+    with WidgetsBindingObserver {
   bool _exibirGrafico = false;
   //final List<Transacao> _transacoes = List<Transacao>();
   final List<Transacao> _transacoes = [
@@ -46,31 +47,28 @@ class _TransacaoHomeState extends State<TransacaoHome> {
   ];
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final paisagem =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final PreferredSizeWidget _appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text('Transações'),
-            trailing: Row(
-              children: <Widget>[
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _novaTransacaoForm(context),
-                )
-              ],
-              mainAxisSize: MainAxisSize.min,
-            ),
-          )
-        : AppBar(
-            title: Text('Transações'),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _novaTransacaoForm(context),
-              )
-            ],
-          );
+    final PreferredSizeWidget _appBar = _buildAppBar();
 
     Widget _buildGrafico(double percent) {
       return Container(
@@ -96,6 +94,14 @@ class _TransacaoHomeState extends State<TransacaoHome> {
       );
     }
 
+    List<Widget> _buildPortrait() {
+      return [_buildGrafico(0.3), _buildListaTransacoes(0.7)];
+    }
+
+    Widget _buildLandscape(bool exibirGrafico) {
+      return exibirGrafico ? _buildGrafico(0.8) : _buildListaTransacoes(0.8);
+    }
+
     final _body = SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -114,10 +120,8 @@ class _TransacaoHomeState extends State<TransacaoHome> {
                   },
                 ),
               ),
-            if (!paisagem) _buildGrafico(0.3),
-            if (!paisagem) _buildListaTransacoes(0.7),
-            if (paisagem)
-              _exibirGrafico ? _buildGrafico(0.8) : _buildListaTransacoes(0.8),
+            if (!paisagem) ..._buildPortrait(),
+            if (paisagem) _buildLandscape(_exibirGrafico),
           ],
         ),
       ),
@@ -137,6 +141,31 @@ class _TransacaoHomeState extends State<TransacaoHome> {
                     child: Icon(Icons.add),
                     onPressed: () => _novaTransacaoForm(context),
                   ),
+          );
+  }
+
+  Widget _buildAppBar() {
+    return Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text('Transações'),
+            trailing: Row(
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _novaTransacaoForm(context),
+                )
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
+          )
+        : AppBar(
+            title: Text('Transações'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _novaTransacaoForm(context),
+              )
+            ],
           );
   }
 

@@ -36,3 +36,44 @@ class Person {
 
 --'widget' permite acessar propriedades do widget dentro da classe de estado
 
+-- setState aciona a execução do build novamente
+-- MediaQuery aciona a execução do build novamente
+
+-- Constrututores 'contantes'
+  Precisa ter todos os parâmetros como 'final'. Por exemplo, StatelessWidget
+  Instanciar widgets com 'const' faz com que ele não seja reinstanciado no build. O conteúdo deve ser imutável. Ex.: Campo text com função de label
+
+-- Life cycle
+StatelessWidget
+  Constructor => build()
+
+StatefulWidget
+  Construtor => initState() => build() => setState() -> dispose()
+  quando um filho é atualizado: didUpdateWidget() => build() -> dispose()
+
+initState: Buscar/Carregar informações necessárias ao widget
+didUpdateWidget: Buscar informações quando o pai foi atualizado
+dispose: Fechar conexões.
+
+Situações do widget:
+  - inactive: enquanto não recebe entrada do usuário;
+  - paused: quando esta invisivel ao usuário e executa processo em background;
+  - resumed: visivel e reponsivel após pausado;
+  - suspending: próximo de ser encerrado (suspenso).
+
+-- Context
+  - Cada widget possui seu próprio contexto;
+  - Contém as informações do widget e localização na arvore de widget (widget tree);
+  - Fornece a conexão entre os widget na árvore;
+
+-- Chave do widget (key propertie)
+  - Item opcional, principalmente em StatelessWidget;
+  - Usado para casos como remoção de item da lista.
+    Ex.: Widget              Element
+          w1 (lista)            e1
+            w2 (text)           e2
+            w3 (text)           e3
+      Ao remover o w2 da lista, flutter verifica se os elementos ainda são necessários. Esta verificação é feita de cima para baixo.
+      Como o segundo (removido) e o terceiro são do mesmo tipo, ele atualiza a referência do e2 para o w3. E consequentemente remove o e3.
+      Este problema pode ser corrigido utilizando a propriedade 'key'. ex.: UniqueKey() / ValueKey(x);
+  - A propriedade key deve ser utilizada no primeiro filho do widget com comportamento apontado.
