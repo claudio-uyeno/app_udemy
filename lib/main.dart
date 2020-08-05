@@ -1,8 +1,10 @@
 import 'dart:ui';
 
-import 'package:app_udemy/widgets/transacao_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import './transacoes/transacao_home.dart';
+import './receitas/receitas_home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +16,36 @@ void main() {
 }
 
 class AppUdemy extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Receitas',
+      home: ReceitasHome(),
+      theme: ThemeData(
+          primarySwatch: Colors.pink,
+          accentColor: Colors.amber,
+          canvasColor: Color.fromRGBO(255, 254, 229, 1),
+          fontFamily: 'Raleway',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                bodyText1: TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
+                bodyText2: TextStyle(
+                  color: Color.fromRGBO(20, 51, 51, 1),
+                ),
+                headline6: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'RobotoCondensed',
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+    );
+  }
+}
+
+class TransacaoApp extends StatelessWidget {
+  const TransacaoApp({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
