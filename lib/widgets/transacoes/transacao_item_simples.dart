@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/transacao.dart';
+import '../../models/transacao.dart';
 
 class TransacaoItemSimples extends StatelessWidget {
   const TransacaoItemSimples({

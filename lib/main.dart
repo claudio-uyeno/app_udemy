@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import './transacoes/transacao_home.dart';
-import './receitas/receitas_home.dart';
+import './widgets/transacoes/transacao_home.dart';
+import './widgets/receitas/receitas_home.dart';
+import './widgets/receitas/screens/categoria_receitas_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +21,6 @@ class AppUdemy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Receitas',
-      home: ReceitasHome(),
       theme: ThemeData(
           primarySwatch: Colors.pink,
           accentColor: Colors.amber,
@@ -37,6 +37,11 @@ class AppUdemy extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               )),
+      home: ReceitasHome(),
+            //initialRoute: '/',  //default
+      routes: {
+        //'/': (ctx) => ReceitasHome(),  //home poderia ser definido aqui também
+        CategoriaReceitasScreen.routeName: (ctx) => CategoriaReceitasScreen()},
     );
   }
 }

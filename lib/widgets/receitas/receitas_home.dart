@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './categorias.dart';
+import 'screens/categorias_screen.dart';
 
 class ReceitasHome extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _ReceitasHomeState extends State<ReceitasHome> {
       appBar: AppBar(
         title: const Text('Receitas'),
       ),
-      body: Categorias(),
+      body: CategoriasScreen(),
     );
   }
 }

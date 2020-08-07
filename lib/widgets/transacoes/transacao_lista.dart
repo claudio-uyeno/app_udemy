@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/transacao.dart';
+import '../../models/transacao.dart';
 
 import './transacao_item_simples.dart';
 import './transacao_item_tile_left.dart';

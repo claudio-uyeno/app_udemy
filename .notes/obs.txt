@@ -77,3 +77,13 @@ Situações do widget:
       Como o segundo (removido) e o terceiro são do mesmo tipo, ele atualiza a referência do e2 para o w3. E consequentemente remove o e3.
       Este problema pode ser corrigido utilizando a propriedade 'key'. ex.: UniqueKey() / ValueKey(x);
   - A propriedade key deve ser utilizada no primeiro filho do widget com comportamento apontado.
+
+  -- Ikewell
+  Semelhante ao "GestureDetector", mas com efeito de onda.
+
+-- Carregar novas páginas
+  Navigator.of(ctx).push{...}(MaterialPageRoute(builder: (context) { ... }))
+  pushReplacement, remove a página abaixo, impedindo a volta.
+
+-- Rotas
+  Por padrão, o ini

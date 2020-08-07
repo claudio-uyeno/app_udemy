@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import './transacao_lista.dart';
 import './transacao_novo.dart';
-import '../models/transacao.dart';
+import '../../models/transacao.dart';
 
 //obsolete
 class TransacaoUsuario extends StatefulWidget {

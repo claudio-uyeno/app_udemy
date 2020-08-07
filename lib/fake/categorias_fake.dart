@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/categoria.dart';
 
-const DUMMY_CATEGORIES = const [
+const CATEGORIAS_FAKE = const [
   Categoria(
     id: 'c1',
     titulo: 'Italian',
