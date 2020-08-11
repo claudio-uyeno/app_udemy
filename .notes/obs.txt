@@ -87,3 +87,16 @@ Situações do widget:
 
 -- Rotas
   Por padrão, o ini
+
+-- onGenerateRoute
+  Permite construir rotas em tempo de execução 
+
+-- onUnknownRoute
+  Executado quando houve erro ao gerar rota.
+
+-- DefaultTabController
+  Cria uma tela com abas gerenciado automaticamente pelo flutter (aba selecionado e widget a ser carregado).
+  TabBar: abas composto
+  Tab: registros que compõe o TabBar
+  TabBarView: lista de widgets
+  O comprimento do TabBar dever ser igual ao do TabBarView.

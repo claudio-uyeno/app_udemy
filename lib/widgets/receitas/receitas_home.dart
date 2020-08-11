@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/categorias_screen.dart';
+import './screens/abas_screen.dart';
 
 class ReceitasHome extends StatefulWidget {
   @override
@@ -12,11 +12,6 @@ class ReceitasHome extends StatefulWidget {
 class _ReceitasHomeState extends State<ReceitasHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Receitas'),
-      ),
-      body: CategoriasScreen(),
-    );
+    return AbasScreen();
   }
 }

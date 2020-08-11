@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import './widgets/transacoes/transacao_home.dart';
 import './widgets/receitas/receitas_home.dart';
 import './widgets/receitas/screens/categoria_receitas_screen.dart';
+import './widgets/receitas/screens/prato_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,10 +39,21 @@ class AppUdemy extends StatelessWidget {
                 ),
               )),
       home: ReceitasHome(),
-            //initialRoute: '/',  //default
+      //initialRoute: '/',  //default
       routes: {
         //'/': (ctx) => ReceitasHome(),  //home poderia ser definido aqui também
-        CategoriaReceitasScreen.routeName: (ctx) => CategoriaReceitasScreen()},
+        CategoriaReceitasScreen.routeName: (ctx) => CategoriaReceitasScreen(),
+        PratoScreen.routeName: (ctx) => PratoScreen(),
+      },
+      // onGenerateRoute: (config) {
+      //   if (config.name == '/rota-atual') {
+      //     return null;
+      //   }
+      //   return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen());
+      // },
+      onUnknownRoute: (config) {
+        return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen());
+      },
     );
   }
 }

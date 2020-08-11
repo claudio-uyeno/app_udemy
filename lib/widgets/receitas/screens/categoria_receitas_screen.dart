@@ -28,7 +28,14 @@ class CategoriaReceitasScreen extends StatelessWidget {
         itemBuilder: (ctx, idx) {
           var prato = pratosPorCategoria[idx];
           return Card(
-            child: PratoItem(imageUrl: prato.imageUrl,),
+            child: PratoItem(
+              id: prato.id,
+              imageUrl: prato.imageUrl,
+              titulo: prato.titulo,
+              duracao: prato.duracao,
+              complexidade: prato.complexidade,
+              preco: prato.preco ,
+            ),
           );
         },
         itemCount: pratosPorCategoria.length,
