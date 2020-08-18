@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './screens/abas_screen.dart';
+import './screens/abas_screen_bottom.dart';
 
 class ReceitasHome extends StatefulWidget {
   @override
@@ -12,6 +13,6 @@ class ReceitasHome extends StatefulWidget {
 class _ReceitasHomeState extends State<ReceitasHome> {
   @override
   Widget build(BuildContext context) {
-    return AbasScreen();
+    return AbasScreenBottom();
   }
 }

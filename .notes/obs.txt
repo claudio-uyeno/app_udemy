@@ -83,6 +83,8 @@ Situações do widget:
 
 -- Carregar novas páginas
   Navigator.of(ctx).push{...}(MaterialPageRoute(builder: (context) { ... }))
+  Navigator.of(ctx).pushNamed('caminho')
+  Navigator.of(ctx).pushReplacementNamed('caminho')
   pushReplacement, remove a página abaixo, impedindo a volta.
 
 -- Rotas
@@ -100,3 +102,7 @@ Situações do widget:
   Tab: registros que compõe o TabBar
   TabBarView: lista de widgets
   O comprimento do TabBar dever ser igual ao do TabBarView.
+
+-- initState
+  Executado antes do build do widget
+  Ainda não possui o context

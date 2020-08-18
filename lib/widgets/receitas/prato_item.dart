@@ -10,6 +10,7 @@ class PratoItem extends StatelessWidget {
   final int duracao;
   final Complexidade complexidade;
   final Preco preco;
+  final Function remover;
 
   PratoItem(
       {@required this.id,
@@ -17,10 +18,11 @@ class PratoItem extends StatelessWidget {
       @required this.titulo,
       @required this.duracao,
       @required this.complexidade,
-      @required this.preco});
+      @required this.preco,
+      @required this.remover});
 
   void selecionarPrato(BuildContext context) {
-    Navigator.of(context).pushNamed(PratoScreen.routeName, arguments: id);
+    Navigator.of(context).pushNamed(PratoScreen.routeName, arguments: id).then((value) => remover(value));
   }
 
   String get complexidadeTexto {

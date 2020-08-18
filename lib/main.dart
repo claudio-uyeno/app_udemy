@@ -7,6 +7,9 @@ import './widgets/transacoes/transacao_home.dart';
 import './widgets/receitas/receitas_home.dart';
 import './widgets/receitas/screens/categoria_receitas_screen.dart';
 import './widgets/receitas/screens/prato_screen.dart';
+import './widgets/receitas/screens/filtros_screen.dart';
+import './fake/pratos_fake.dart';
+import './models/prato.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +20,43 @@ void main() {
   runApp(AppUdemy());
 }
 
-class AppUdemy extends StatelessWidget {
+class AppUdemy extends StatefulWidget {
+  @override
+  _AppUdemyState createState() => _AppUdemyState();
+}
+
+class _AppUdemyState extends State<AppUdemy> {
+  Map<String, bool> _filtros = {
+    'gluten': false,
+    'lactose': false,
+    'vegano': false,
+    'vegetariano': false
+  };
+
+  List<Prato> _pratosPorCategoria = PRATOS_FAKE;
+
+  void _setFiltros(Map<String, bool> filtros) {
+    setState(() {
+      _filtros = filtros;
+
+      _pratosPorCategoria = PRATOS_FAKE.where((p) {
+        if (_filtros['gluten'] && !p.semGluten) {
+          return false;
+        }
+        if (_filtros['lactose'] && !p.semLactose) {
+          return false;
+        }
+        if (_filtros['vegano'] && !p.ehVegano) {
+          return false;
+        }
+        if (_filtros['vegetariano'] && !p.ehVegetariano) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,8 +81,9 @@ class AppUdemy extends StatelessWidget {
       //initialRoute: '/',  //default
       routes: {
         //'/': (ctx) => ReceitasHome(),  //home poderia ser definido aqui também
-        CategoriaReceitasScreen.routeName: (ctx) => CategoriaReceitasScreen(),
+        CategoriaReceitasScreen.routeName: (ctx) => CategoriaReceitasScreen(_pratosPorCategoria),
         PratoScreen.routeName: (ctx) => PratoScreen(),
+        FiltrosScreen.routeName: (ctx) => FiltrosScreen(_filtros, _setFiltros),
       },
       // onGenerateRoute: (config) {
       //   if (config.name == '/rota-atual') {
@@ -52,7 +92,7 @@ class AppUdemy extends StatelessWidget {
       //   return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen());
       // },
       onUnknownRoute: (config) {
-        return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen());
+        return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen(_pratosPorCategoria));
       },
     );
   }
