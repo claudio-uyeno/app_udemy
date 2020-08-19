@@ -34,6 +34,7 @@ class _AppUdemyState extends State<AppUdemy> {
   };
 
   List<Prato> _pratosPorCategoria = PRATOS_FAKE;
+  List<Prato> _favoritos = [];
 
   void _setFiltros(Map<String, bool> filtros) {
     setState(() {
@@ -57,6 +58,24 @@ class _AppUdemyState extends State<AppUdemy> {
     });
   }
 
+  void _toggleFavorito(String id) {
+    final pratoId = _favoritos.indexWhere((p) => p.id == id);
+
+    if (pratoId >= 0) {
+      setState(() {
+        _favoritos.removeAt(pratoId);
+      });
+    } else {
+      setState(() {
+        _favoritos.add(_pratosPorCategoria.firstWhere((p) => p.id == id));
+      });
+    }
+  }
+
+  bool _ehFavorito(String id) {
+    return _favoritos.any((p) => p.id == id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -77,12 +96,13 @@ class _AppUdemyState extends State<AppUdemy> {
                   fontWeight: FontWeight.bold,
                 ),
               )),
-      home: ReceitasHome(),
+      home: ReceitasHome(_favoritos),
       //initialRoute: '/',  //default
       routes: {
         //'/': (ctx) => ReceitasHome(),  //home poderia ser definido aqui também
-        CategoriaReceitasScreen.routeName: (ctx) => CategoriaReceitasScreen(_pratosPorCategoria),
-        PratoScreen.routeName: (ctx) => PratoScreen(),
+        CategoriaReceitasScreen.routeName: (ctx) =>
+            CategoriaReceitasScreen(_pratosPorCategoria),
+        PratoScreen.routeName: (ctx) => PratoScreen(_toggleFavorito, _ehFavorito),
         FiltrosScreen.routeName: (ctx) => FiltrosScreen(_filtros, _setFiltros),
       },
       // onGenerateRoute: (config) {
@@ -92,7 +112,8 @@ class _AppUdemyState extends State<AppUdemy> {
       //   return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen());
       // },
       onUnknownRoute: (config) {
-        return MaterialPageRoute(builder: (ctx) => CategoriaReceitasScreen(_pratosPorCategoria));
+        return MaterialPageRoute(
+            builder: (ctx) => CategoriaReceitasScreen(_pratosPorCategoria));
       },
     );
   }

@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'categorias_screen.dart';
 import 'favoritos_screen.dart';
 import '../menu_lateral.dart';
+import '../../../models/prato.dart';
 
 class AbasScreenBottom extends StatefulWidget {
+  final List<Prato> _favoritos;
+
+  AbasScreenBottom(this._favoritos);
+
   @override
   State<StatefulWidget> createState() {
     return _AbasScreenBottomState();
@@ -12,11 +17,18 @@ class AbasScreenBottom extends StatefulWidget {
 }
 
 class _AbasScreenBottomState extends State<AbasScreenBottom> {
-  final List<Map<String, Object>> _paginas = [
-    {'titulo': 'Categorias', 'item': CategoriasScreen()},
-    {'titulo': 'Favoritos', 'item': FavoritosScreen()}
-  ];
-  int _idPaginaSelecionada = 0;
+  List<Map<String, Object>> _paginas;
+  int _idPaginaSelecionada;
+
+  @override
+  void initState() {
+    _paginas = [
+      {'titulo': 'Categorias', 'item': CategoriasScreen()},
+      {'titulo': 'Favoritos', 'item': FavoritosScreen(widget._favoritos)}
+    ];
+    _idPaginaSelecionada = 0;
+    super.initState();
+  }
 
   void _selecionarPagina(int index) {
     setState(() {

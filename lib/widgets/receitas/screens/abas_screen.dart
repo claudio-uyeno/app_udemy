@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 import './categorias_screen.dart';
 import './favoritos_screen.dart';
+import '../../../models/prato.dart';
 
 class AbasScreen extends StatefulWidget {
+  final List<Prato> _favoritos;
+
+  AbasScreen(this._favoritos);
+
   @override
   State<StatefulWidget> createState() {
     return _AbasScreenState();
@@ -33,7 +38,7 @@ class _AbasScreenState extends State<AbasScreen> {
           ),
         ),
         body: TabBarView(
-          children: [CategoriasScreen(), FavoritosScreen()],
+          children: [CategoriasScreen(), FavoritosScreen(widget._favoritos)],
         ),
       ),
     );

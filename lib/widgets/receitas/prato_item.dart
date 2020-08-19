@@ -19,7 +19,7 @@ class PratoItem extends StatelessWidget {
       @required this.duracao,
       @required this.complexidade,
       @required this.preco,
-      @required this.remover});
+      this.remover});
 
   void selecionarPrato(BuildContext context) {
     Navigator.of(context).pushNamed(PratoScreen.routeName, arguments: id).then((value) => remover(value));

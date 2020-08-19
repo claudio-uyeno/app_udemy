@@ -6,6 +6,11 @@ import '../../../fake/pratos_fake.dart';
 class PratoScreen extends StatelessWidget {
   static const routeName = '/prato-detalhes';
 
+  final Function _toggleFavorito;
+  final Function _ehFavorito;
+
+  PratoScreen(this._toggleFavorito, this._ehFavorito);
+
   @override
   Widget build(BuildContext context) {
     final String id = ModalRoute.of(context).settings.arguments as String;
@@ -14,6 +19,14 @@ class PratoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(prato.titulo),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              Navigator.of(context).pop(id);
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -63,10 +76,8 @@ class PratoScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
-        onPressed: () {
-          Navigator.of(context).pop(id);
-        },
+        child: _ehFavorito(id) ? Icon(Icons.star) : Icon(Icons.star_border),
+        onPressed: () => _toggleFavorito(id),
       ),
     );
   }
