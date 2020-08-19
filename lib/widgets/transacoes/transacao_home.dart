@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/transacao.dart';
+import '../../models/transacao.dart';
 import './transacao_lista.dart';
 import './transacao_novo.dart';
 import './chart.dart';

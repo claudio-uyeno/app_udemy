@@ -77,3 +77,32 @@ Situações do widget:
       Como o segundo (removido) e o terceiro são do mesmo tipo, ele atualiza a referência do e2 para o w3. E consequentemente remove o e3.
       Este problema pode ser corrigido utilizando a propriedade 'key'. ex.: UniqueKey() / ValueKey(x);
   - A propriedade key deve ser utilizada no primeiro filho do widget com comportamento apontado.
+
+  -- Ikewell
+  Semelhante ao "GestureDetector", mas com efeito de onda.
+
+-- Carregar novas páginas
+  Navigator.of(ctx).push{...}(MaterialPageRoute(builder: (context) { ... }))
+  Navigator.of(ctx).pushNamed('caminho')
+  Navigator.of(ctx).pushReplacementNamed('caminho')
+  pushReplacement, remove a página abaixo, impedindo a volta.
+
+-- Rotas
+  Por padrão, o ini
+
+-- onGenerateRoute
+  Permite construir rotas em tempo de execução 
+
+-- onUnknownRoute
+  Executado quando houve erro ao gerar rota.
+
+-- DefaultTabController
+  Cria uma tela com abas gerenciado automaticamente pelo flutter (aba selecionado e widget a ser carregado).
+  TabBar: abas composto
+  Tab: registros que compõe o TabBar
+  TabBarView: lista de widgets
+  O comprimento do TabBar dever ser igual ao do TabBarView.
+
+-- initState
+  Executado antes do build do widget
+  Ainda não possui o context
