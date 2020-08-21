@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import './widgets/receitas/app_receitas.dart';
-import './widgets/transacoes/app_transacoes.dart';
-import './widgets/shop/app_shop.dart';
+import './apps/receitas/app_receitas.dart';
+import './apps/transacoes/app_transacoes.dart';
+import './apps/shop/app_shop.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

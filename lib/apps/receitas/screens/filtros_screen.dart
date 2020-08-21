@@ -1,5 +1,6 @@
-import 'package:app_udemy/widgets/receitas/menu_lateral.dart';
 import 'package:flutter/material.dart';
+
+import '../menu_lateral.dart';
 
 class FiltrosScreen extends StatefulWidget {
   static const routeName = '/filtros';

@@ -52,6 +52,8 @@ StatefulWidget
   quando um filho é atualizado: didUpdateWidget() => build() -> dispose()
 
 initState: Buscar/Carregar informações necessárias ao widget
+  Executado antes do build do widget
+  Ainda não possui o context
 didUpdateWidget: Buscar informações quando o pai foi atualizado
 dispose: Fechar conexões.
 
@@ -103,6 +105,14 @@ Situações do widget:
   TabBarView: lista de widgets
   O comprimento do TabBar dever ser igual ao do TabBarView.
 
--- initState
-  Executado antes do build do widget
-  Ainda não possui o context
+
+-- tipos de state: dados que afetam a UI (pode se alterar durante o tempo)
+  App-wide State: afeta a aplicação inteira, ou grande parte dela. ex.: autenticação
+  Widget State(local): afeta somente o widget. ex.: validar entrada
+
+
+== PADRÃO DE DESENVOLVIMENTO
+  PROVIDER(Container): Pode estar vinculado a qualquer widget. A partir dele, os outros widgets (todos abaixo na árvore) podem acessar os dados pelo contexto.
+    É possível ter mais de um provider por aplicação.
+    add no pubspec 'provider: ^3.0.0
+    na versão 4.0, builder foi substituido por create
