@@ -1,4 +1,4 @@
-import '../apps/shop/models/product.dart';
+import '../apps/shop/providers/product.dart';
 
 final PRODUCTS_FAKE = [
     Product(

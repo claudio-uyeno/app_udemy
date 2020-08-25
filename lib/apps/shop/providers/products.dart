@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/product.dart';
+import 'product.dart';
 import '../../../fake/products_fake.dart';
 
 class Products with ChangeNotifier {
@@ -13,5 +13,9 @@ class Products with ChangeNotifier {
   void addProduct(Product value){
     _items.add(value);
     notifyListeners();  //notificas todos os widgets com listener
+  }
+
+  Product getById(String id){
+    return _items.firstWhere((p) => p.id == id);
   }
 }

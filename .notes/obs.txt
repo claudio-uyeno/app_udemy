@@ -116,3 +116,8 @@ Situações do widget:
     É possível ter mais de um provider por aplicação.
     add no pubspec 'provider: ^3.0.0
     na versão 4.0, builder foi substituido por create
+    O parâmetro 'listen' impede que ele seja atualizado externamente. Provider.of<Products>(context, listen: false).getById(productId);
+    É possível instanciar provider de 2 maneiras:
+      ChangeNotifierProvider(create: (ctx) => CLASS())
+      ChangeNotifierProvider.value(value: CLASS())    //garante que ao reciclar, o valor não seja simplesmente reaproveitado. Especialmente quando se usa um conteúde de uma lista
+    Para atualizar parte de um widget, é possível criar um 'Consumer.
