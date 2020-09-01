@@ -10,6 +10,10 @@ class Products with ChangeNotifier {
     return [..._items]; //[xxx]retorna uma cópia
   }
 
+  List<Product> get favoriteItems {
+    return _items.where((x) => x.isFavorite).toList();
+  }
+
   void addProduct(Product value){
     _items.add(value);
     notifyListeners();  //notificas todos os widgets com listener
