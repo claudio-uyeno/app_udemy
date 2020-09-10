@@ -6,6 +6,7 @@ import '../providers/cart.dart'
         Cart; //não carrega a class CartItem que tem o mesmo nome no widget cart_item
 import '../widgets/cart_item.dart'
     as w; //utilizar um alias também resolve o problema
+import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   static const String route_name = '/cart';
@@ -34,7 +35,7 @@ class CartScreen extends StatelessWidget {
                   Spacer(),
                   Chip(
                     label: Text(
-                      'R\$ ${cartData.totalAmount}',
+                      'R\$ ${cartData.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -46,7 +47,13 @@ class CartScreen extends StatelessWidget {
                       'Order now',
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                        cartData.items.values.toList(),
+                        cartData.totalAmount,
+                      );
+                      cartData.clear();
+                    },
                   ),
                 ],
               ),
