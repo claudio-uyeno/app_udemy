@@ -121,3 +121,7 @@ Situações do widget:
       ChangeNotifierProvider(create: (ctx) => CLASS())
       ChangeNotifierProvider.value(value: CLASS())    //garante que ao reciclar, o valor não seja simplesmente reaproveitado. Especialmente quando se usa um conteúde de uma lista
     Para atualizar parte de um widget, é possível criar um 'Consumer.
+
+
+ex image:
+https://secure.img1-fg.wfcdn.com/im/74230115/resize-h700-w700%5Ecompr-r85/8470/84707680/Pokemon+Pikachu+Wall+Decal.jpg
