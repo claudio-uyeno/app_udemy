@@ -17,23 +17,28 @@ class Products with ChangeNotifier {
     return _items.where((x) => x.isFavorite).toList();
   }
 
-  Future<void> addProduct(Product product){
+  Future<void> addProduct(Product product) {
     const url = 'https://sandbox-b766c.firebaseio.com/products.json';
-    return http.post(url, body: json.encode({
-      'id': product.id,
-      'title': product.title,
-      'description': product.description,
-      'imageUrl': product.imageUrl,
-      'price': product.price,
-      'isFavorite': product.isFavorite
-    })).then((response) {
+    return http
+        .post(url,
+            body: json.encode({
+              'id': product.id,
+              'title': product.title,
+              'description': product.description,
+              'imageUrl': product.imageUrl,
+              'price': product.price,
+              'isFavorite': product.isFavorite
+            }))
+        .then((response) {
       print(json.decode(response.body));
       _items.add(product.copy(json.decode(response.body)['name']));
-      notifyListeners();  //notificas todos os widgets com listener
+      notifyListeners(); //notificas todos os widgets com listener
+    }).catchError((error) {
+      throw error;
     });
   }
 
-  Product getById(String id){
+  Product getById(String id) {
     return _items.firstWhere((p) => p.id == id);
   }
 
