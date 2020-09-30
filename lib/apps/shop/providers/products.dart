@@ -17,7 +17,7 @@ class Products with ChangeNotifier {
     return _items.where((x) => x.isFavorite).toList();
   }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProductSync(Product product) {
     const url = 'https://sandbox-b766c.firebaseio.com/products.json';
     return http
         .post(url,
@@ -36,6 +36,28 @@ class Products with ChangeNotifier {
     }).catchError((error) {
       throw error;
     });
+  }
+
+  Future<void> addProduct(Product product) async {
+    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'id': product.id,
+            'title': product.title,
+            'description': product.description,
+            'imageUrl': product.imageUrl,
+            'price': product.price,
+            'isFavorite': product.isFavorite
+          }));
+
+      _items.add(product.copy(json.decode(response.body)['name']));
+      
+      notifyListeners(); //notificas todos os widgets com listener
+    } catch (error) {
+      throw error;
+    }
   }
 
   Product getById(String id) {
