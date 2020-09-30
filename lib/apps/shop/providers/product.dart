@@ -17,8 +17,18 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  void toggleFavorite () {
+  void toggleFavorite() {
     this.isFavorite = !this.isFavorite;
     notifyListeners();
+  }
+
+  Product copy(String id) {
+    return Product(
+        id: id,
+        title: this.title,
+        description: this.description,
+        price: this.price,
+        imageUrl: this.imageUrl,
+        isFavorite: this.isFavorite);
   }
 }

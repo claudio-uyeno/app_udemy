@@ -1,0 +1,7 @@
+GET: fetch data
+POST: store data
+PATCH: update data
+PUT: replace data
+DELETE: delete data
+
+Firebase permite cria automaticamente as coleções ex: 'https://sandbox-b766c.firebaseio.com/products.json'

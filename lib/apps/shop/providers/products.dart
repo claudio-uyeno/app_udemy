@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'product.dart';
 import '../../../fake/products_fake.dart';
@@ -14,9 +17,20 @@ class Products with ChangeNotifier {
     return _items.where((x) => x.isFavorite).toList();
   }
 
-  void addProduct(Product value){
-    _items.add(value);
-    notifyListeners();  //notificas todos os widgets com listener
+  Future<void> addProduct(Product product){
+    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+    return http.post(url, body: json.encode({
+      'id': product.id,
+      'title': product.title,
+      'description': product.description,
+      'imageUrl': product.imageUrl,
+      'price': product.price,
+      'isFavorite': product.isFavorite
+    })).then((response) {
+      print(json.decode(response.body));
+      _items.add(product.copy(json.decode(response.body)['name']));
+      notifyListeners();  //notificas todos os widgets com listener
+    });
   }
 
   Product getById(String id){
