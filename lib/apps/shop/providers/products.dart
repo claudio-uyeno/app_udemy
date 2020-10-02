@@ -53,7 +53,7 @@ class Products with ChangeNotifier {
           }));
 
       _items.add(product.copy(json.decode(response.body)['name']));
-      
+
       notifyListeners(); //notificas todos os widgets com listener
     } catch (error) {
       throw error;
@@ -73,5 +73,36 @@ class Products with ChangeNotifier {
   void removeProduct(String id) {
     _items.removeWhere((p) => p.id == id);
     notifyListeners();
+  }
+
+  Future<void> fetchProducts() async {
+    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+
+    try {
+      final response = await http.get(url);
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      if (data != null) {
+        final products = List<Product>();
+
+        data.forEach((productId, productData) {
+          if (!_items.any((p) => p.id == productId)) {
+            final prod = Product(
+              id: productId,
+              title: productData['title'],
+              description: productData['description'],
+              imageUrl: productData['imageUrl'],
+              price: productData['price'],
+              isFavorite: productData['isFavorite'],
+            );
+            products.add(prod);
+          }
+        });
+        _items.addAll(products);
+      }
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 }
