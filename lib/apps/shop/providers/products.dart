@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'product.dart';
 import '../../../fake/products_fake.dart';
+import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = PRODUCTS_FAKE;
@@ -64,15 +65,46 @@ class Products with ChangeNotifier {
     return _items.firstWhere((p) => p.id == id);
   }
 
-  void updateProduct(Product newProduct) {
-    var index = _items.indexWhere((p) => p.id == newProduct.id);
-    _items[index] = newProduct;
+  Future<void> updateProduct(Product product) async {
+    final url =
+        'https://sandbox-b766c.firebaseio.com/products/${product.id}.json';
+
+    try {
+      http.patch(url,
+          body: json.encode({
+            'id': product.id,
+            'title': product.title,
+            'description': product.description,
+            'imageUrl': product.imageUrl,
+            'price': product.price,
+          }));
+    } catch (error) {
+      throw error;
+    }
+
+    var index = _items.indexWhere((p) => p.id == product.id);
+    _items[index] = product;
     notifyListeners();
   }
 
-  void removeProduct(String id) {
-    _items.removeWhere((p) => p.id == id);
+  Future<void> removeProduct(String id) async {
+    var url = 'https://sandbox-b766c.firebaseio.com/products/$id';
+    final existingProductIndex = _items.indexWhere((p) => p.id == id);
+    var existingProduct = _items[
+        existingProductIndex]; //bkp em memória para 'optimistic updating' garante que se der erro, faz 'rollback'
+
+    final response = await http.delete(url);
+
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product.');
+    }
+
+    existingProduct = null;
   }
 
   Future<void> fetchProducts() async {
