@@ -88,7 +88,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> removeProduct(String id) async {
-    var url = 'https://sandbox-b766c.firebaseio.com/products/$id';
+    var url = 'https://sandbox-b766c.firebaseio.com/products/$id.json';
     final existingProductIndex = _items.indexWhere((p) => p.id == id);
     var existingProduct = _items[
         existingProductIndex]; //bkp em memória para 'optimistic updating' garante que se der erro, faz 'rollback'
