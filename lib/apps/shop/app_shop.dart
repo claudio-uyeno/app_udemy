@@ -1,3 +1,4 @@
+import 'package:app_udemy/apps/shop/providers/product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,26 +20,34 @@ class AppShop extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
-        ChangeNotifierProvider(create: (ctx) => Products()),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (ctx) => Products('', []),
+          update: (ctx, auth, previousProducts) => Products(
+            auth.token,
+            previousProducts == null ? [] : previousProducts.items,
+          ),
+        ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
         ChangeNotifierProvider(create: (ctx) => Orders())
       ],
-      child: MaterialApp(
-        title: 'Shop',
-        theme: ThemeData(
-          primaryColor: Colors.cyan,
-          accentColor: Colors.yellowAccent,
-          fontFamily: 'Lato',
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'Shop',
+          theme: ThemeData(
+            primaryColor: Colors.cyan,
+            accentColor: Colors.yellowAccent,
+            fontFamily: 'Lato',
+          ),
+          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          routes: {
+            ProductDetailScreen.route_name: (ctx) => ProductDetailScreen(),
+            CartScreen.route_name: (ctx) => CartScreen(),
+            OrderScreen.route_name: (ctx) => OrderScreen(),
+            UserProductsScreen.route_name: (ctx) => UserProductsScreen(),
+            EditProductScreen.rout_name: (ctx) => EditProductScreen(),
+            AuthScreen.routeName: (ctx) => AuthScreen(),
+          },
         ),
-        home: AuthScreen(), //ProductsOverviewScreen(),
-        routes: {
-          ProductDetailScreen.route_name: (ctx) => ProductDetailScreen(),
-          CartScreen.route_name: (ctx) => CartScreen(),
-          OrderScreen.route_name: (ctx) => OrderScreen(),
-          UserProductsScreen.route_name: (ctx) => UserProductsScreen(),
-          EditProductScreen.rout_name: (ctx) => EditProductScreen(),
-          AuthScreen.routeName: (ctx) => AuthScreen(),
-        },
       ),
     );
   }

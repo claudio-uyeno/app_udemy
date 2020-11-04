@@ -9,6 +9,9 @@ import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = PRODUCTS_FAKE;
+  String _token;
+
+  Products(this._token, this._items);
 
   List<Product> get items {
     return [..._items]; //[xxx]retorna uma cópia
@@ -108,7 +111,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchProducts() async {
-    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+    final url = 'https://sandbox-b766c.firebaseio.com/products.json?auth=$_token';
 
     try {
       final response = await http.get(url);
