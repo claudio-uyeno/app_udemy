@@ -22,7 +22,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProductSync(Product product) {
-    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+    final url = 'https://sandbox-b766c.firebaseio.com/products.json?auth=$_token';
+
     return http
         .post(url,
             body: json.encode({
@@ -43,7 +44,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+    final url = 'https://sandbox-b766c.firebaseio.com/products.json?auth=$_token';
 
     try {
       final response = await http.post(url,
@@ -70,7 +71,7 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(Product product) async {
     final url =
-        'https://sandbox-b766c.firebaseio.com/products/${product.id}.json';
+        'https://sandbox-b766c.firebaseio.com/products/${product.id}.json?auth=$_token';
 
     try {
       http.patch(url,
@@ -91,7 +92,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> removeProduct(String id) async {
-    var url = 'https://sandbox-b766c.firebaseio.com/products/$id.json';
+    final url = 'https://sandbox-b766c.firebaseio.com/products/$id.json?auth=$_token';
     final existingProductIndex = _items.indexWhere((p) => p.id == id);
     var existingProduct = _items[
         existingProductIndex]; //bkp em memória para 'optimistic updating' garante que se der erro, faz 'rollback'
