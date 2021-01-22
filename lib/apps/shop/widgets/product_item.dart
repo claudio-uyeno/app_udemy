@@ -23,10 +23,13 @@ class ProductItem extends StatelessWidget {
             Navigator.of(context).pushNamed(ProductDetailScreen.route_name,
                 arguments: product.id);
           },
-          child: FadeInImage(
-            placeholder: AssetImage('assets/images/product-placeholder.png'),
-            image: NetworkImage(product.imageUrl),
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,  //chave para saber qual image animar na ida/volta
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
