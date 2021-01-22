@@ -5,3 +5,5 @@ PUT: replace data
 DELETE: delete data
 
 Firebase permite cria automaticamente as coleções ex: 'https://sandbox-b766c.firebaseio.com/products.json'
+
+https://console.firebase.google.com/project/sandbox-b766c/database/sandbox-b766c/data

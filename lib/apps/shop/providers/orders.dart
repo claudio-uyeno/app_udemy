@@ -22,6 +22,7 @@ class OrderItem {
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
   String _token;
+  String _userId;
 
   Orders(this._token, this._orders);
 
@@ -30,7 +31,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> products, double total) async {
-    final url = 'https://sandbox-b766c.firebaseio.com/orders.json?auth=$_token';
+    final url = 'https://sandbox-b766c.firebaseio.com/orders/$_userId.json?auth=$_token';
     final orderDate = DateTime.now();
 
     try {
@@ -62,7 +63,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchOrders() async {
-    final url = 'https://sandbox-b766c.firebaseio.com/orders.json?auth=$_token';
+    final url = 'https://sandbox-b766c.firebaseio.com/orders/$_userId.json?auth=$_token';
 
     try {
       final response = await http.get(url);

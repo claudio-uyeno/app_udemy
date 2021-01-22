@@ -10,13 +10,11 @@ class UserProductsScreen extends StatelessWidget {
   static const String route_name = '/user-products';
 
   Future<void> _refresh(BuildContext context) async {
-    await Provider.of<Products>(context, listen: false).fetchProducts();
+    await Provider.of<Products>(context, listen: false).fetchProducts(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    var productsData = Provider.of<Products>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
@@ -31,19 +29,32 @@ class UserProductsScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: RefreshIndicator(
-        onRefresh: () => _refresh(context),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemCount: productsData.items.length,
-            itemBuilder: (_, i) => UserProductItem(
-              productsData.items[i].id,
-              productsData.items[i].title,
-              productsData.items[i].imageUrl,
-            ),
-          ),
-        ),
+      body: FutureBuilder(
+        future: _refresh(context),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: () => _refresh(context),
+                    child: Consumer<Products>(
+                      builder: (ctx, productsData, _) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          itemCount: productsData.items.length,
+                          itemBuilder: (_, i) => Column(
+                            children: [
+                              UserProductItem(
+                                productsData.items[i].id,
+                                productsData.items[i].title,
+                                productsData.items[i].imageUrl,
+                              ),
+                              Divider(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
       ),
     );
   }
