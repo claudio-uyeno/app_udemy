@@ -9,6 +9,10 @@ import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = PRODUCTS_FAKE;
+  String _token;
+  String _userId;
+
+  Products(this._token, this._userId, this._items);
 
   List<Product> get items {
     return [..._items]; //[xxx]retorna uma cópia
@@ -19,7 +23,9 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProductSync(Product product) {
-    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+    final url =
+        'https://sandbox-b766c.firebaseio.com/products.json?auth=$_token';
+
     return http
         .post(url,
             body: json.encode({
@@ -27,8 +33,7 @@ class Products with ChangeNotifier {
               'title': product.title,
               'description': product.description,
               'imageUrl': product.imageUrl,
-              'price': product.price,
-              'isFavorite': product.isFavorite
+              'price': product.price
             }))
         .then((response) {
       print(json.decode(response.body));
@@ -40,7 +45,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+    final url =
+        'https://sandbox-b766c.firebaseio.com/products.json?auth=$_token';
 
     try {
       final response = await http.post(url,
@@ -50,7 +56,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorite': product.isFavorite
+            'owner': _userId
           }));
 
       _items.add(product.copy(json.decode(response.body)['name']));
@@ -67,7 +73,7 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(Product product) async {
     final url =
-        'https://sandbox-b766c.firebaseio.com/products/${product.id}.json';
+        'https://sandbox-b766c.firebaseio.com/products/${product.id}.json?auth=$_token';
 
     try {
       http.patch(url,
@@ -88,7 +94,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> removeProduct(String id) async {
-    var url = 'https://sandbox-b766c.firebaseio.com/products/$id.json';
+    final url =
+        'https://sandbox-b766c.firebaseio.com/products/$id.json?auth=$_token';
     final existingProductIndex = _items.indexWhere((p) => p.id == id);
     var existingProduct = _items[
         existingProductIndex]; //bkp em memória para 'optimistic updating' garante que se der erro, faz 'rollback'
@@ -107,31 +114,37 @@ class Products with ChangeNotifier {
     existingProduct = null;
   }
 
-  Future<void> fetchProducts() async {
-    const url = 'https://sandbox-b766c.firebaseio.com/products.json';
+  Future<void> fetchProducts([bool filterByOwner = false]) async {
+    final filter = filterByOwner ? 'orderBy="owner"&equalTo="$_userId"' : '';
+    final urlProducts =
+        'https://sandbox-b766c.firebaseio.com/products.json?auth=$_token&$filter';
+    final urlFavorites =
+        'https://sandbox-b766c.firebaseio.com/userFavorites/$_userId.json?auth=$_token';
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(urlProducts);
       final data = json.decode(response.body) as Map<String, dynamic>;
 
-      if (data != null) {
-        final products = List<Product>();
+      final responseFavorites = await http.get(urlFavorites);
+      final dataFavorites = json.decode(responseFavorites.body);
 
+      final List<Product> products = [];
+      if (data != null) {
         data.forEach((productId, productData) {
-          if (!_items.any((p) => p.id == productId)) {
-            final prod = Product(
-              id: productId,
-              title: productData['title'],
-              description: productData['description'],
-              imageUrl: productData['imageUrl'],
-              price: productData['price'],
-              isFavorite: productData['isFavorite'],
-            );
-            products.add(prod);
-          }
+          final prod = Product(
+            id: productId,
+            title: productData['title'],
+            description: productData['description'],
+            imageUrl: productData['imageUrl'],
+            price: productData['price'],
+            isFavorite: dataFavorites == null
+                ? false
+                : dataFavorites[productId] ?? false,
+          );
+          products.add(prod);
         });
-        _items.addAll(products);
       }
+      _items = products;
       notifyListeners();
     } catch (error) {
       throw error;

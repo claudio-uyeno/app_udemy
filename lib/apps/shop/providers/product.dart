@@ -20,18 +20,18 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  Future<void> toggleFavorite() async{
-    var url = 'https://sandbox-b766c.firebaseio.com/products/$id.json';
+  Future<void> toggleFavorite(String token, String userId) async{
+    final url = 'https://sandbox-b766c.firebaseio.com/userFavorites/$userId/$id.json?auth=$token';
     var oldValue = this.isFavorite;
 
     this.isFavorite = !this.isFavorite;
     notifyListeners();
 
     try{
-      final response = await http.patch(url, body: json.encode({'isFavorite': this.isFavorite}));
+      final response = await http.put(url, body: json.encode(this.isFavorite));
 
       if (response.statusCode >= 400){
-        _setIsFavorite(oldValue);        
+        _setIsFavorite(oldValue);
       }
       
     } catch(error){

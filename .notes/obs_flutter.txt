@@ -128,3 +128,6 @@ https://secure.img1-fg.wfcdn.com/im/74230115/resize-h700-w700%5Ecompr-r85/8470/8
 
 
 -- quando um método é async, ele automaticamente retorna um future. Logo, não é necessário ter return.
+
+-- autenticação
+  Flutter App -(auth with private key)-> Server (rest API) -(token)-> Flutter App (storage)
