@@ -23,9 +23,13 @@ class ProductItem extends StatelessWidget {
             Navigator.of(context).pushNamed(ProductDetailScreen.route_name,
                 arguments: product.id);
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,  //chave para saber qual image animar na ida/volta
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
@@ -38,7 +42,8 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
               color: Theme.of(context).accentColor,
-              onPressed: () => product.toggleFavorite(authData.token, authData.userId),
+              onPressed: () =>
+                  product.toggleFavorite(authData.token, authData.userId),
             ),
           ),
           backgroundColor: Colors.black87,
@@ -47,7 +52,8 @@ class ProductItem extends StatelessWidget {
             color: Theme.of(context).accentColor,
             onPressed: () {
               cart.addItem(product.id, product.price, product.title);
-              Scaffold.of(context).hideCurrentSnackBar(); //oculta automaticamente quando mais de uma instância é chamada
+              Scaffold.of(context)
+                  .hideCurrentSnackBar(); //oculta automaticamente quando mais de uma instância é chamada
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text(
                   'Item added to cart!',
