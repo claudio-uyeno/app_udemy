@@ -1,3 +1,4 @@
+import 'package:app_udemy/apps/dispositivos/app_dispositivos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ void main() {
 class AppUdemy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AppShop();
+    return AppDispositivos();
     //return AppTransacoes();
     //return AppReceitas();
   }
