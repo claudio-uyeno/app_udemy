@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1022760740389",
+    "firebase_url": "https://sandbox-b766c.firebaseio.com",
+    "project_id": "sandbox-b766c",
+    "storage_bucket": "sandbox-b766c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022760740389:android:c6ed8d62729f96c56a41cc",
+        "android_client_info": {
+          "package_name": "com.example.app_udemy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022760740389-metmsgk6lpl02m7v784ha2fiaqj8nm83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3U6BtwjJldczLe0Zx3vusB7PK9k386_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022760740389-metmsgk6lpl02m7v784ha2fiaqj8nm83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
