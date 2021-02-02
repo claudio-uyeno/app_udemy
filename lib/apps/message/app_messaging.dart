@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import './screens/chat_screen.dart';
-import 'package:app_udemy/apps/message/screens/auth_screen.dart';
+import './screens/auth_screen.dart';
 
 class AppMessaging extends StatefulWidget {
   @override
